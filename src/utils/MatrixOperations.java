@@ -33,55 +33,97 @@ public class MatrixOperations {
     }
 
     /**
-     * Multiplies elements of two matrices by broadcasting
+     * Multiplies elements of two matrices
      *
      * @param A first matrix
      * @param B second matrix
      * @return multiplication of elements of two matrices
      */
-    //todo: number of columns/rows of both matrix must be same or one of them should have only one column/rows
     //todo: broadcast in multiple cases
-    public static double[][] multiplyBroadcast(double[][] A, double[][] B) {
+    public static double[][] multiply(double[][] A, double[][] B) throws Exception {
         double[][] C = new double[A.length][A[0].length];
+        boolean error = true;
+        //B has only one element
         if (B.length == 1) {
             for (int i = 0; i < A.length; i++) {
                 for (int j = 0; j < A[0].length; j++) {
                     C[i][j] = A[i][j] * B[0][0];
                 }
             }
+            error = false;
         }
+        //Column of B is equal to A
         if (A[0].length == B[0].length && B.length == 1) {
             for (int i = 0; i < A.length; i++) {
                 for (int j = 0; j < A[0].length; j++) {
                     C[i][j] = A[i][j] * B[0][j];
                 }
             }
+            error = false;
         }
-        return null;
+        //A and B have equal dimensions
+        if (A[0].length == B[0].length && A.length == B.length) {
+            for (int i = 0; i < A.length; i++) {
+                for (int j = 0; j < A[0].length; j++) {
+                    C[i][j] = A[i][j] * B[i][j];
+                }
+            }
+            error = false;
+        }
+        if (error) {
+            throw new Exception("Invalid dimensions " + shape(A) + " and " + shape(B));
+        }
+        return C;
     }
 
     /**
-     * Adds elements of two matrices by broadcasting
+     * prints the shape of given matrix
+     *
+     * @param A Matrix
+     */
+    public static String shape(double[][] A) {
+        System.out.println("(" + A.length + ", " + A[0].length + ")");
+        return "(" + A.length + ", " + A[0].length + ")";
+    }
+
+    /**
+     * Adds elements of two matrices
      *
      * @param A first matrix
      * @param B second matrix
      * @return addition of elements of two matrices
      */
-    //todo: number of columns/rows of both matrix must be same or one of them should have only one column/rows
-    public static double[][] add(double[][] A, double[][] B) {
-        return null;
+    public static double[][] add(double[][] A, double[][] B) throws Exception {
+        if (A[0].length != B[0].length || A.length != B.length) {
+            throw new Exception("Invalid dimensions " + shape(A) + " and " + shape(B));
+        }
+        double[][] C = new double[A.length][A[0].length];
+        for (int i = 0; i < A.length; i++) {
+            for (int j = 0; j < A[0].length; j++) {
+                C[i][j] = A[i][j] + B[i][j];
+            }
+        }
+        return C;
     }
 
     /**
-     * Subtracts elements of two matrices by broadcasting
+     * Subtracts elements of two matrices
      *
      * @param A first matrix
      * @param B second matrix
      * @return subtraction of elements of two matrices
      */
-    //todo: number of columns/rows of both matrix must be same or one of them should have only one column/rows
-    public static double[][] subtract(double[][] A, double[][] B) {
-        return null;
+    public static double[][] subtract(double[][] A, double[][] B) throws Exception {
+        if (A[0].length != B[0].length || A.length != B.length) {
+            throw new Exception("Invalid dimensions " + shape(A) + " and " + shape(B));
+        }
+        double[][] C = new double[A.length][A[0].length];
+        for (int i = 0; i < A.length; i++) {
+            for (int j = 0; j < A[0].length; j++) {
+                C[i][j] = A[i][j] + B[i][j];
+            }
+        }
+        return C;
     }
 
     /**
@@ -91,7 +133,13 @@ public class MatrixOperations {
      * @return transpose of the matrix
      */
     public static double[][] transpose(double[][] A) {
-        return null;
+        double[][] C = new double[A[0].length][A.length];
+        for (int i = 0; i < A[0].length; i++) {
+            for (int j = 0; j < A.length; j++) {
+                C[i][j] = A[j][i];
+            }
+        }
+        return C;
     }
 
     /**
@@ -100,7 +148,13 @@ public class MatrixOperations {
      * @param A matrix
      * @return sum of elements of a matrix
      */
-    public static double[][] sum(double[][] A) {
-        return null;
+    public static double sum(double[][] A) {
+        double s = 0.0;
+        for (int i = 0; i < A[0].length; i++) {
+            for (int j = 0; j < A.length; j++) {
+                s += A[j][i];
+            }
+        }
+        return s;
     }
 }
