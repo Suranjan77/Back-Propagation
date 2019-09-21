@@ -13,6 +13,7 @@ public class MatrixOperations {
      * @param A first matrix
      * @param B second matrix
      * @return dot product of two matrices
+     * @throws Exception occurs when dimension of A and B are mismatched
      */
     //todo: testing
     public static double[][] dot(double[][] A, double[][] B) throws Exception {
@@ -38,6 +39,7 @@ public class MatrixOperations {
      * @param A first matrix
      * @param B second matrix
      * @return multiplication of elements of two matrices
+     * @throws Exception occurs when dimension of A and B are mismatched
      */
     //todo: broadcast in multiple cases
     public static double[][] multiply(double[][] A, double[][] B) throws Exception {
@@ -70,6 +72,15 @@ public class MatrixOperations {
             }
             error = false;
         }
+        //Rows of A is equal to rows of B
+        if (A.length == B.length && B[0].length == 1) {
+            for (int i = 0; i < A.length; i++) {
+                for (int j = 0; j < A[0].length; j++) {
+                    C[i][j] = A[i][j] * B[i][0];
+                }
+            }
+            error = false;
+        }
         if (error) {
             throw new Exception("Invalid dimensions " + shape(A) + " and " + shape(B));
         }
@@ -80,6 +91,7 @@ public class MatrixOperations {
      * prints the shape of given matrix
      *
      * @param A Matrix
+     * @return shape of given matrix
      */
     public static String shape(double[][] A) {
         System.out.println("(" + A.length + ", " + A[0].length + ")");
@@ -92,6 +104,7 @@ public class MatrixOperations {
      * @param A first matrix
      * @param B second matrix
      * @return addition of elements of two matrices
+     * @throws Exception occurs when dimension of A and B are mismatched
      */
     public static double[][] add(double[][] A, double[][] B) throws Exception {
         if (A[0].length != B[0].length || A.length != B.length) {
@@ -112,6 +125,7 @@ public class MatrixOperations {
      * @param A first matrix
      * @param B second matrix
      * @return subtraction of elements of two matrices
+     * @throws Exception occurs when dimension of A and B are mismatched
      */
     public static double[][] subtract(double[][] A, double[][] B) throws Exception {
         if (A[0].length != B[0].length || A.length != B.length) {
@@ -156,5 +170,19 @@ public class MatrixOperations {
             }
         }
         return s;
+    }
+
+    /**
+     * @param A displays the matrix in formatted form
+     */
+    public static void display(double[][] A) {
+        for (int i = 0; i < A.length; i++) {
+            System.out.print("|");
+            for (int j = 0; j < A[0].length; j++) {
+                System.out.print("\t" + A[i][j]);
+            }
+            System.out.print("\t|");
+            System.out.println("");
+        }
     }
 }
